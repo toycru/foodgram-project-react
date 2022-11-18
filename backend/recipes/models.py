@@ -1,5 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db.models import CASCADE
 
 User = get_user_model()
 
@@ -52,7 +54,7 @@ class Tag(models.Model):
     """Тэги для рецептов.
     Связано с моделью Recipe через М2М.
     Поля `name` и 'slug` - обязательны для заполнения."""
-    title = models.CharField(
+    name = models.CharField(
         verbose_name='Тэг',
         max_length=200,
         unique=True,
@@ -70,10 +72,10 @@ class Tag(models.Model):
         max_length=200
     )
 
-class Ingredient():
+class Ingredient(models.Model):
     """Ингридиенты для рецепта.
     Связано с моделью Recipe через М2М (AmountIngredient)."""
-    title = models.CharField(
+    name = models.CharField(
         verbose_name='Ингридиент',
         max_length=200,
         unique=True,
@@ -83,6 +85,34 @@ class Ingredient():
         max_length=200
     )
 
+class ingredientQuantity(models.Model):
+    recipe = models.ForeignKey(
+        verbose_name='В каких рецептах',
+        related_name='ingredient',
+        to=Recipe,
+        on_delete=CASCADE,
+    )
+    ingredients = models.ForeignKey(
+        verbose_name='Связанные ингредиенты',
+        related_name='recipe',
+        to=Ingredient,
+        on_delete=CASCADE,
+    )
+    amount = models.PositiveSmallIntegerField(
+        verbose_name='Количество',
+        default=0,
+        validators=(
+            MinValueValidator(
+                1, 'Нужно хоть какое-то количество.'
+            ),
+            MaxValueValidator(
+                10000, 'Слишком много!'
+            ),
+        ),
+    )
+    
+
+"""
 class Favorites(models.Model):
     user = models.ForeignKey(
         User,
@@ -90,6 +120,7 @@ class Favorites(models.Model):
         related_name='recipes',
         verbose_name='Автор'
     )
+"""
 
 class Follow(models.Model):
     user = models.ForeignKey(

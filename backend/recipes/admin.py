@@ -1,27 +1,29 @@
-from django.contrib import admin, ModelAdmin, register
+from django.contrib.admin import ModelAdmin, register
+from django.contrib import admin
+from django.utils.safestring import mark_safe
 
-from .models import AmountIngredient, Ingredient, Recipe, Tag
+from .models import Ingredient, Recipe, Tag
 
 EMPTY_VALUE_DISPLAY = 'Значение не задано'
 
 @register(Ingredient)
-class IngredientAdmin(ModelAdmin):
+class IngredientAdmin(admin.ModelAdmin):
     list_display = (
-        'title', 'measure',
+        'name', 'measure',
     )
     search_fields = (
-        'title',
+        'name',
     )
     list_filter = (
-        'title',
+        'name',
     )
 
-    save_on_top = True
-    empty_value_display = EMPTY_VALUE_DISPLAY
+    # save_on_top = True
+    # empty_value_display = EMPTY_VALUE_DISPLAY
 
 
 @register(Recipe)
-class RecipeAdmin(ModelAdmin):
+class RecipeAdmin(admin.ModelAdmin):
     list_display = (
         'title', 'author', 'get_image',
     )
@@ -40,17 +42,17 @@ class RecipeAdmin(ModelAdmin):
     )
 
     # inlines = (IngredientInline,)
-    save_on_top = True
-    empty_value_display = EMPTY_VALUE_DISPLAY
+    # save_on_top = True
+    # empty_value_display = EMPTY_VALUE_DISPLAY
 
-    # def get_image(self, obj):
-    #     return mark_safe(f'<img src={obj.image.url} width="80" hieght="30"')
+    def get_image(self, obj):
+        return mark_safe(f'<img src={obj.image.url} width="80" hieght="30"')
 
-    # get_image.short_description = 'Изображение'
+    get_image.short_description = 'Изображение'
 
 
 @register(Tag)
-class TagAdmin(ModelAdmin):
+class TagAdmin(admin.ModelAdmin):
     list_display = (
         'name', 'color', 'slug',
     )
