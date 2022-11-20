@@ -108,12 +108,22 @@ class Ingredient(models.Model):
     name = models.CharField(
         verbose_name='Ингридиент',
         max_length=200,
-        unique=True,
+        # unique=True,
     )
     measurement_unit = models.CharField(
         verbose_name='Единицы измерения',
         max_length=200
     )
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = 'Ингредиент'
+        verbose_name_plural = 'Ингредиенты'
+
+    def __str__(self):
+        return f'{self.name}, {self.measurement_unit}.'
+
+
 class IngredientQuantity(models.Model):
     """Количество ингредиента в конкретном рецепте.
     Связана с Recipe через O2M
