@@ -6,10 +6,24 @@ from .models import Ingredient, Recipe, Tag
 
 EMPTY_VALUE_DISPLAY = 'Значение не задано'
 
+
+@register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    list_display = (
+        'name', 'color', 'slug',
+    )
+    search_fields = (
+        'name', 'color'
+    )
+
+    save_on_top = True
+    empty_value_display = EMPTY_VALUE_DISPLAY
+
+
 @register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
     list_display = (
-        'name', 'measure',
+        'name', 'measurement_unit',
     )
     search_fields = (
         'name',
@@ -18,8 +32,8 @@ class IngredientAdmin(admin.ModelAdmin):
         'name',
     )
 
-    # save_on_top = True
-    # empty_value_display = EMPTY_VALUE_DISPLAY
+    save_on_top = True
+    empty_value_display = EMPTY_VALUE_DISPLAY
 
 
 @register(Recipe)
@@ -42,8 +56,8 @@ class RecipeAdmin(admin.ModelAdmin):
     )
 
     # inlines = (IngredientInline,)
-    # save_on_top = True
-    # empty_value_display = EMPTY_VALUE_DISPLAY
+    save_on_top = True
+    empty_value_display = EMPTY_VALUE_DISPLAY
 
     def get_image(self, obj):
         return mark_safe(f'<img src={obj.image.url} width="80" hieght="30"')
@@ -51,14 +65,4 @@ class RecipeAdmin(admin.ModelAdmin):
     get_image.short_description = 'Изображение'
 
 
-@register(Tag)
-class TagAdmin(admin.ModelAdmin):
-    list_display = (
-        'name', 'color', 'slug',
-    )
-    search_fields = (
-        'name', 'color'
-    )
 
-    save_on_top = True
-    empty_value_display = EMPTY_VALUE_DISPLAY
