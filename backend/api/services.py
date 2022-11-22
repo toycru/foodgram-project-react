@@ -3,16 +3,16 @@
 
 from string import hexdigits
 
-from recipes.models import AmountIngredient
+from recipes.models import IngredientQuantity
 
 from rest_framework.serializers import ValidationError
 
 
-def recipe_amount_ingredients_set(recipe, ingredients):
+def recipe_quantity_ingredients_set(recipe, ingredients):
     """Записывает ингредиенты вложенные в рецепт.
 
-    Создаёт объект AmountIngredient связывающий объекты Recipe и
-    Ingredient с указанием количества(`amount`) конкретного ингридиента.
+    Создаёт объект IngredientQuantity связывающий объекты Recipe и
+    Ingredient с указанием количества(`quantity`) конкретного ингридиента.
 
     Args:
         recipe (Recipe):
@@ -21,10 +21,10 @@ def recipe_amount_ingredients_set(recipe, ingredients):
             Список ингридентов и количества сих.
     """
     for ingredient in ingredients:
-        AmountIngredient.objects.get_or_create(
+        IngredientQuantity.objects.get_or_create(
             recipe=recipe,
             ingredients=ingredient['ingredient'],
-            amount=ingredient['amount']
+            quantity=ingredient['quantity']
         )
 
 

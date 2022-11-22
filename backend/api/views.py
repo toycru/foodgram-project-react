@@ -7,7 +7,7 @@ from django.http.response import HttpResponse
 
 from djoser.views import UserViewSet as DjoserUserViewSet
 
-from recipes.models import AmountIngredient, Ingredient, Recipe, Tag
+from recipes.models import IngredientQuantity, Ingredient, Recipe, Tag
 
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -231,12 +231,12 @@ class RecipeViewSet(ModelViewSet, AddDelViewMixin):
         user = self.request.user
         if not user.carts.exists():
             return Response(status=HTTP_400_BAD_REQUEST)
-        ingredients = AmountIngredient.objects.filter(
+        ingredients = IngredientQuantity.objects.filter(
             recipe__in=(user.carts.values('id'))
         ).values(
             ingredient=F('ingredients__name'),
             measure=F('ingredients__measurement_unit')
-        ).annotate(amount=Sum('amount'))
+        ).annotate(quantity=Sum('quantity'))
 
         filename = f'{user.username}_shopping_list.txt'
         shopping_list = (
@@ -245,7 +245,7 @@ class RecipeViewSet(ModelViewSet, AddDelViewMixin):
         )
         for ing in ingredients:
             shopping_list += (
-                f'{ing["ingredient"]}: {ing["amount"]} {ing["measure"]}\n'
+                f'{ing["ingredient"]}: {ing["quantity"]} {ing["measure"]}\n'
             )
 
         shopping_list += '\n\nПосчитано в Foodgram'

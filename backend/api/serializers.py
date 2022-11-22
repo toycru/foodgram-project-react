@@ -11,7 +11,7 @@ from rest_framework.serializers import (ModelSerializer, SerializerMethodField,
 
 from .conf import MAX_LEN_USERS_CHARFIELD, MIN_USERNAME_LENGTH
 from .services import (check_value_validate, is_hex_color,
-                       recipe_amount_ingredients_set)
+                       recipe_quantity_ingredients_set)
 
 User = get_user_model()
 
@@ -219,7 +219,7 @@ class RecipeSerializer(ModelSerializer):
             list: Список ингридиентов в рецепте.
         """
         ingredients = obj.ingredients.values(
-            'id', 'name', 'measurement_unit', amount=F('recipe__amount')
+            'id', 'name', 'measurement_unit', quantity=F('recipe__quantity')
         )
         return ingredients
 
@@ -284,11 +284,11 @@ class RecipeSerializer(ModelSerializer):
             ing_id = ing.get('id')
             ingredient = check_value_validate(ing_id, Ingredient)
 
-            amount = ing.get('amount')
-            check_value_validate(amount)
+            quantity = ing.get('quantity')
+            check_value_validate(quantity)
 
             valid_ingredients.append(
-                {'ingredient': ingredient, 'amount': amount}
+                {'ingredient': ingredient, 'quantity': quantity}
             )
 
         data['name'] = name.capitalize()
@@ -311,7 +311,7 @@ class RecipeSerializer(ModelSerializer):
         ingredients = validated_data.pop('ingredients')
         recipe = Recipe.objects.create(image=image, **validated_data)
         recipe.tags.set(tags)
-        recipe_amount_ingredients_set(recipe, ingredients)
+        recipe_quantity_ingredients_set(recipe, ingredients)
         return recipe
 
     def update(self, recipe, validated_data):
@@ -342,7 +342,7 @@ class RecipeSerializer(ModelSerializer):
 
         if ingredients:
             recipe.ingredients.clear()
-            recipe_amount_ingredients_set(recipe, ingredients)
+            recipe_quantity_ingredients_set(recipe, ingredients)
 
         recipe.save()
         return recipe
