@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db.models import F
 
-from drf_extra_fields.fields import Base64ImageField
+# from drf_extra_fields.fields import Base64ImageField
 
 from recipes.models import Ingredient, Recipe, Tag
 
@@ -60,7 +60,7 @@ class UserSerializer(ModelSerializer):
         user = self.context.get('request').user
         if user.is_anonymous or (user == obj):
             return False
-        return user.subscribe.filter(id=obj.id).exists()
+        return user.follow.filter(id=obj.id).exists()
 
     def create(self, validated_data):
         """ Создаёт нового пользователя с запрошенными полями.
@@ -188,7 +188,7 @@ class RecipeSerializer(ModelSerializer):
     ingredients = SerializerMethodField()
     is_favorited = SerializerMethodField()
     is_in_shopping_cart = SerializerMethodField()
-    image = Base64ImageField()
+    # image = Base64ImageField()
 
     class Meta:
         model = Recipe
@@ -199,15 +199,15 @@ class RecipeSerializer(ModelSerializer):
             'ingredients',
             'is_favorited',
             'is_in_shopping_cart',
-            'name',
-            'image',
+            'title',
+            # 'image',
             'text',
             'cooking_time',
         )
-        read_only_fields = (
-            'is_favorite',
-            'is_shopping_cart',
-        )
+        # read_only_fields = (
+        #     'is_favorite',
+        #     'is_shopping_cart',
+        # )
 
     def get_ingredients(self, obj):
         """Получает список ингридиентов для рецепта.
@@ -297,7 +297,7 @@ class RecipeSerializer(ModelSerializer):
         data['author'] = self.context.get('request').user
         return data
 
-    def create(self, validated_data):
+    '''def create(self, validated_data):
         """Создаёт рецепт.
 
         Args:
@@ -346,3 +346,4 @@ class RecipeSerializer(ModelSerializer):
 
         recipe.save()
         return recipe
+'''

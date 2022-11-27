@@ -28,6 +28,14 @@ class Tag(models.Model):
         default='FF',
     )
 
+class Meta:
+        verbose_name = 'Тэг'
+        verbose_name_plural = 'Тэги'
+        ordering = ('name', )
+
+def __str__(self) -> str:
+        return f'{self.name} (цвет: {self.color})'
+
 
 class Recipe(models.Model):
     """Модель для рецептов.
@@ -50,30 +58,31 @@ class Recipe(models.Model):
         'Текст рецепта',
         help_text='Введите текст рецепта'
     )
-    cook_time = models.PositiveSmallIntegerField(
-        verbose_name='Время приготовления',
+    cooking_time = models.PositiveSmallIntegerField(
+        verbose_name='Время приготовления, мин.',
         default=0,
         validators=(
             MinValueValidator(
                 1,
-                'Блюдо уже готово!'
+                'Слишком быстро, так не бывает!'
             ),
             MaxValueValidator(
                 600,
-                'Ждать долго.'
+                'Слишком долго.'
             ),
         ),
     )
     image = models.ImageField(
         'Изображение блюда',
-        upload_to='recipes/',
-        blank=True
+        upload_to='recipe_pictures/',
+        blank=True,
+        null=True,
     )
     create_date = models.DateTimeField(
         'Дата публикации',
         auto_now_add=True
     )  
-    tag = models.ForeignKey(
+    tags = models.ForeignKey(
         Tag,
         blank=True,
         null=True,

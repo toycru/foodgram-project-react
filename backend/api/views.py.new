@@ -1,0 +1,15 @@
+from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
+# from .mixins import AddDelViewMixin
+from djoser.views import UserViewSet as DjoserUserViewSet
+
+class UserViewSet(DjoserUserViewSet):
+    pass
+
+class TagViewSet(ReadOnlyModelViewSet):
+    pass
+
+class IngredientViewSet(ReadOnlyModelViewSet):
+    pass
+
+class RecipeViewSet(ModelViewSet):
+    pass

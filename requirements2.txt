@@ -60,3 +60,578 @@ typing_extensions==4.1.1
 uritemplate==4.1.1
 urllib3==1.26.9
 zipp==3.7.0
+
+
+
+
+$ python backend/manage.py runserver
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+←[31m
+You have 1 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): auth.←[0m
+←[31mRun 'python manage.py migrate' to apply them.←[0m
+November 28, 2022 - 00:22:47
+Django version 3.2.16, using settings 'foodgram.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+Bad Request: /api/auth/token/login/
+[28/Nov/2022 00:23:14] ←[31;1m"POST /api/auth/token/login/ HTTP/1.1" 400 125←[0m
+Bad Request: /api/auth/token/login/
+[28/Nov/2022 00:23:35] ←[31;1m"POST /api/auth/token/login/ HTTP/1.1" 400 125←[0m
+[28/Nov/2022 00:24:25] ←[m"POST /api/users/ HTTP/1.1" 201 120←[0m
+Bad Request: /api/auth/token/login/
+[28/Nov/2022 00:24:39] ←[31;1m"POST /api/auth/token/login/ HTTP/1.1" 400 125←[0m
+[28/Nov/2022 00:24:45] ←[m"GET /api/tags/ HTTP/1.1" 200 191←[0m
+Internal Server Error: /api/recipes/
+Traceback (most recent call last):
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\mixins.py", line 43, in list
+    return self.get_paginated_response(serializer.data)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 768, in data
+    ret = super().data
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 507, in to_representation
+    for field in fields:
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 368, in _readable_fields
+    for field in self.fields.values():
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\utils\functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 1077, in get_fields
+    source, info, model, depth
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 1222, in build_field
+    return self.build_unknown_field(field_name, model_class)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 1342, in build_unknown_field
+    (field_name, model_class.__name__)
+django.core.exceptions.ImproperlyConfigured: Field name `name` is not valid for model `Recipe`.
+[28/Nov/2022 00:24:45] ←[35;1m"GET /api/recipes/?page=1&limit=6&tags=breakfast&tags=snack&tags=dinner HTTP/1.1" 500 159871←[0m
+Internal Server Error: /api/recipes/
+Traceback (most recent call last):
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\mixins.py", line 43, in list
+    return self.get_paginated_response(serializer.data)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 768, in data
+    ret = super().data
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 507, in to_representation
+    for field in fields:
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 368, in _readable_fields
+    for field in self.fields.values():
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\utils\functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 1077, in get_fields
+    source, info, model, depth
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 1222, in build_field
+    return self.build_unknown_field(field_name, model_class)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 1342, in build_unknown_field
+    (field_name, model_class.__name__)
+django.core.exceptions.ImproperlyConfigured: Field name `name` is not valid for model `Recipe`.
+[28/Nov/2022 00:24:45] ←[35;1m"GET /api/recipes/?page=1&limit=6 HTTP/1.1" 500 159269←[0m
+Internal Server Error: /api/recipes/
+Traceback (most recent call last):
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\mixins.py", line 43, in list
+    return self.get_paginated_response(serializer.data)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 768, in data
+    ret = super().data
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 507, in to_representation
+    for field in fields:
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 368, in _readable_fields
+    for field in self.fields.values():
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\utils\functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 1077, in get_fields
+    source, info, model, depth
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 1222, in build_field
+    return self.build_unknown_field(field_name, model_class)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 1342, in build_unknown_field
+    (field_name, model_class.__name__)
+django.core.exceptions.ImproperlyConfigured: Field name `name` is not valid for model `Recipe`.
+[28/Nov/2022 00:24:49] ←[35;1m"GET /api/recipes/?page=1&limit=6&tags=breakfast&tags=dinner HTTP/1.1" 500 159691←[0m
+Internal Server Error: /api/recipes/
+Traceback (most recent call last):
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\mixins.py", line 43, in list
+    return self.get_paginated_response(serializer.data)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 768, in data
+    ret = super().data
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 507, in to_representation
+    for field in fields:
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 368, in _readable_fields
+    for field in self.fields.values():
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\utils\functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 1077, in get_fields
+    source, info, model, depth
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 1222, in build_field
+    return self.build_unknown_field(field_name, model_class)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 1342, in build_unknown_field
+    (field_name, model_class.__name__)
+django.core.exceptions.ImproperlyConfigured: Field name `name` is not valid for model `Recipe`.
+[28/Nov/2022 00:24:51] ←[35;1m"GET /api/recipes/?page=1&limit=6&tags=breakfast&tags=snack&tags=dinner HTTP/1.1" 500 159871←[0m
+[28/Nov/2022 00:24:51] ←[m"GET /api/recipes/?page=1&limit=6&tags=breakfast&tags=snack HTTP/1.1" 200 52←[0m
+Internal Server Error: /api/recipes/
+Traceback (most recent call last):
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\mixins.py", line 43, in list
+    return self.get_paginated_response(serializer.data)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 768, in data
+    ret = super().data
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 507, in to_representation
+    for field in fields:
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 368, in _readable_fields
+    for field in self.fields.values():
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\utils\functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 1077, in get_fields
+    source, info, model, depth
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 1222, in build_field
+    return self.build_unknown_field(field_name, model_class)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 1342, in build_unknown_field
+    (field_name, model_class.__name__)
+django.core.exceptions.ImproperlyConfigured: Field name `name` is not valid for model `Recipe`.
+[28/Nov/2022 00:24:52] ←[35;1m"GET /api/recipes/?page=1&limit=6&tags=breakfast&tags=snack&tags=dinner HTTP/1.1" 500 159871←[0m
+Bad Request: /api/auth/token/login/
+[28/Nov/2022 00:25:12] ←[31;1m"POST /api/auth/token/login/ HTTP/1.1" 400 125←[0m
+Bad Request: /api/auth/token/login/
+[28/Nov/2022 00:25:22] ←[31;1m"POST /api/auth/token/login/ HTTP/1.1" 400 125←[0m
+D:\Dev\S17_DeepLom\foodgram-project-react\backend\api\serializers.py changed, reloading.
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+←[31m
+You have 1 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): auth.←[0m
+←[31mRun 'python manage.py migrate' to apply them.←[0m
+November 28, 2022 - 00:29:05
+Django version 3.2.16, using settings 'foodgram.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+Not Found: /signin
+[28/Nov/2022 00:30:00] ←[33m"GET /signin HTTP/1.1" 404 2327←[0m
+[28/Nov/2022 00:30:01] ←[m"GET /api/tags/ HTTP/1.1" 200 191←[0m
+Internal Server Error: /api/recipes/
+Traceback (most recent call last):
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\mixins.py", line 43, in list
+    return self.get_paginated_response(serializer.data)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 768, in data
+    ret = super().data
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+TypeError: 'Tag' object is not iterable
+[28/Nov/2022 00:30:01] ←[35;1m"GET /api/recipes/?page=1&limit=6 HTTP/1.1" 500 140931←[0m
+Internal Server Error: /api/recipes/
+Traceback (most recent call last):
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\mixins.py", line 43, in list
+    return self.get_paginated_response(serializer.data)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 768, in data
+    ret = super().data
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+TypeError: 'Tag' object is not iterable
+[28/Nov/2022 00:30:01] ←[35;1m"GET /api/recipes/?page=1&limit=6&tags=breakfast&tags=snack&tags=dinner HTTP/1.1" 500 141641←[0m
+[28/Nov/2022 00:30:04] ←[m"GET /api/tags/ HTTP/1.1" 200 191←[0m
+Internal Server Error: /api/recipes/
+Traceback (most recent call last):
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\mixins.py", line 43, in list
+    return self.get_paginated_response(serializer.data)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 768, in data
+    ret = super().data
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+TypeError: 'Tag' object is not iterable
+[28/Nov/2022 00:30:04] ←[35;1m"GET /api/recipes/?page=1&limit=6 HTTP/1.1" 500 141196←[0m
+Internal Server Error: /api/recipes/
+Traceback (most recent call last):
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\mixins.py", line 43, in list
+    return self.get_paginated_response(serializer.data)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 768, in data
+    ret = super().data
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+TypeError: 'Tag' object is not iterable
+[28/Nov/2022 00:30:04] ←[35;1m"GET /api/recipes/?page=1&limit=6&tags=breakfast&tags=snack&tags=dinner HTTP/1.1" 500 141641←[0m
+[28/Nov/2022 00:30:05] ←[m"GET /api/tags/ HTTP/1.1" 200 191←[0m
+Internal Server Error: /api/recipes/
+Traceback (most recent call last):
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\mixins.py", line 43, in list
+    return self.get_paginated_response(serializer.data)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 768, in data
+    ret = super().data
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+TypeError: 'Tag' object is not iterable
+[28/Nov/2022 00:30:05] ←[35;1m"GET /api/recipes/?page=1&limit=6 HTTP/1.1" 500 141196←[0m
+Internal Server Error: /api/recipes/
+Traceback (most recent call last):
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\mixins.py", line 43, in list
+    return self.get_paginated_response(serializer.data)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 768, in data
+    ret = super().data
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+TypeError: 'Tag' object is not iterable
+[28/Nov/2022 00:30:05] ←[35;1m"GET /api/recipes/?page=1&limit=6&tags=breakfast&tags=snack&tags=dinner HTTP/1.1" 500 141641←[0m
+Internal Server Error: /api/recipes/
+Traceback (most recent call last):
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\mixins.py", line 43, in list
+    return self.get_paginated_response(serializer.data)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 768, in data
+    ret = super().data
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+TypeError: 'Tag' object is not iterable
+[28/Nov/2022 00:30:08] ←[35;1m"GET /api/recipes/?page=1&limit=6&tags=snack&tags=dinner HTTP/1.1" 500 141299←[0m
+Internal Server Error: /api/recipes/
+Traceback (most recent call last):
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\mixins.py", line 43, in list
+    return self.get_paginated_response(serializer.data)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 768, in data
+    ret = super().data
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+TypeError: 'Tag' object is not iterable
+[28/Nov/2022 00:30:09] ←[35;1m"GET /api/recipes/?page=1&limit=6&tags=breakfast&tags=snack&tags=dinner HTTP/1.1" 500 141641←[0m
+[28/Nov/2022 00:30:10] ←[m"GET /api/recipes/?page=1&limit=6&tags=breakfast&tags=snack HTTP/1.1" 200 52←[0m
+[28/Nov/2022 00:30:11] ←[m"GET /api/recipes/?page=1&limit=6&tags=breakfast HTTP/1.1" 200 52←[0m
+[28/Nov/2022 00:30:11] ←[m"GET /api/recipes/?page=1&limit=6&tags=breakfast&tags=snack HTTP/1.1" 200 52←[0m
+Internal Server Error: /api/recipes/
+Traceback (most recent call last):
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\core\handlers\exception.py", line 47, in inner
+    response = get_response(request)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\core\handlers\base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\django\views\decorators\csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\mixins.py", line 43, in list
+    return self.get_paginated_response(serializer.data)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 768, in data
+    ret = super().data
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in <listcomp>
+    self.child.to_representation(item) for item in iterable
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 522, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+  File "D:\Dev\S17_DeepLom\foodgram-project-react\venv\lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+TypeError: 'Tag' object is not iterable
+[28/Nov/2022 00:30:12] ←[35;1m"GET /api/recipes/?page=1&limit=6&tags=breakfast&tags=snack&tags=dinner HTTP/1.1" 500 141641←[0m
