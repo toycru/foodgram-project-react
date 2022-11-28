@@ -133,3 +133,6 @@ dmypy.json
 
 # Миграции
 migrations/
+
+# Модули Node.js
+node_modules/
