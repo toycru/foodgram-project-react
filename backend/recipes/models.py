@@ -82,14 +82,14 @@ class Recipe(models.Model):
         'Дата публикации',
         auto_now_add=True
     )  
-    tags = models.ForeignKey(
+    tags = models.ManyToManyField(
         Tag,
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
+        # blank=True,
+        # null=True,
+        # on_delete=models.SET_NULL,
         related_name='recipes',
         verbose_name='Тэг',
-        help_text='Выберите тэг'
+        # help_text='Выберите тэг'
     )
     is_favorite = models.ManyToManyField(
         GourmetUser,

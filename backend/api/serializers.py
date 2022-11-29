@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db.models import F
 
-# from drf_extra_fields.fields import Base64ImageField
+from drf_extra_fields.fields import Base64ImageField
 
 from recipes.models import Ingredient, Recipe, Tag
 
@@ -22,7 +22,7 @@ class ShortRecipeSerializer(ModelSerializer):
     """
     class Meta:
         model = Recipe
-        fields = 'id', 'name', 'image', 'cooking_time'
+        fields = 'id', 'title', 'image', 'cooking_time'
         read_only_fields = '__all__',
 
 
@@ -188,7 +188,7 @@ class RecipeSerializer(ModelSerializer):
     ingredients = SerializerMethodField()
     is_favorited = SerializerMethodField()
     is_in_shopping_cart = SerializerMethodField()
-    # image = Base64ImageField()
+    image = Base64ImageField()
 
     class Meta:
         model = Recipe
@@ -200,7 +200,7 @@ class RecipeSerializer(ModelSerializer):
             'is_favorited',
             'is_in_shopping_cart',
             'title',
-            # 'image',
+            'image',
             'text',
             'cooking_time',
         )
@@ -218,7 +218,8 @@ class RecipeSerializer(ModelSerializer):
         Returns:
             list: Список ингридиентов в рецепте.
         """
-        ingredients = obj.ingredients.values(
+        # удалить перед сдачей
+        ingredients = obj.ingredient.ingredients.values(
             'id', 'name', 'measurement_unit', quantity=F('recipe__quantity')
         )
         return ingredients
@@ -265,7 +266,7 @@ class RecipeSerializer(ModelSerializer):
         Returns:
             dict: Проверенные данные.
         """
-        name = str(self.initial_data.get('name')).strip()
+        title = str(self.initial_data.get('title')).strip()
         tags = self.initial_data.get('tags')
         ingredients = self.initial_data.get('ingredients')
         values_as_list = (tags, ingredients)
@@ -291,13 +292,13 @@ class RecipeSerializer(ModelSerializer):
                 {'ingredient': ingredient, 'quantity': quantity}
             )
 
-        data['name'] = name.capitalize()
+        data['title'] = title.capitalize()
         data['tags'] = tags
         data['ingredients'] = valid_ingredients
         data['author'] = self.context.get('request').user
         return data
 
-    '''def create(self, validated_data):
+    def create(self, validated_data):
         """Создаёт рецепт.
 
         Args:
@@ -329,8 +330,8 @@ class RecipeSerializer(ModelSerializer):
 
         recipe.image = validated_data.get(
             'image', recipe.image)
-        recipe.name = validated_data.get(
-            'name', recipe.name)
+        recipe.title = validated_data.get(
+            'title', recipe.title)
         recipe.text = validated_data.get(
             'text', recipe.text)
         recipe.cooking_time = validated_data.get(
@@ -346,4 +347,3 @@ class RecipeSerializer(ModelSerializer):
 
         recipe.save()
         return recipe
-'''
