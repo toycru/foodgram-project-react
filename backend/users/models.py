@@ -27,7 +27,7 @@ class GourmetUser(AbstractUser):
     )
     follow = models.ManyToManyField(
         verbose_name='Подписка',
-        related_name='subscribers',
+        related_name='followers',
         to='self',
         symmetrical=False,
     )

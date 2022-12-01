@@ -43,30 +43,26 @@ class IngredientAdmin(admin.ModelAdmin):
 @register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
     list_display = (
-        'title', 'author', # 'get_image',
+        'name', 'author',
     )
     fields = (
-        ('title', 'cooking_time',),
+        ('name', 'cooking_time',),
         ('author', 'tags',),
         ('text',),
         ('image',),
     )
     raw_id_fields = ('author', )
     search_fields = (
-        'title', 'author',
+        'name', 'author',
     )
     list_filter = (
-        'title', 'author__username',
+        'name', 'author__username',
     )
 
     inlines = (IngredientInline,)
     save_on_top = True
     empty_value_display = EMPTY_VALUE_DISPLAY
 
-    def get_image(self, obj):
-        return mark_safe(f'<img src={obj.image.url} width="80" hieght="30"')
-
-    # get_image.short_description = 'Изображение'
 
 
 

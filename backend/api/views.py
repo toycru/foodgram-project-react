@@ -14,14 +14,12 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 
-from . import conf
 from .mixins import AddDelViewMixin
 from .paginators import PageLimitPagination
 from .permissions import AdminOrReadOnly, AuthorStaffOrReadOnly
 from .serializers import (IngredientSerializer, RecipeSerializer,
                           ShortRecipeSerializer, TagSerializer,
                           UserSubscribeSerializer)
-from .services import incorrect_layout
 
 User = get_user_model()
 
@@ -37,41 +35,22 @@ class UserViewSet(DjoserUserViewSet, AddDelViewMixin):
     pagination_class = PageLimitPagination
     add_serializer = UserSubscribeSerializer
 
-    @action(methods=conf.ACTION_METHODS, detail=True)
+    @action(methods=('GET', 'POST', 'DELETE',), detail=True)
     def subscribe(self, request, id):
         """Создаёт/удалет связь между пользователями.
-
-        Вызов метода через url: */user/<int:id>/subscribe/.
-
-        Args:
-            request (Request): Не используется.
-            id (int, str):
-                id пользователя, на которого желает подписаться
-                или отписаться запращивающий пользователь.
-
-        Returns:
-            Responce: Статус подтверждающий/отклоняющий действие.
+        */user/<int:id>/subscribe/.
         """
-        return self.add_del_obj(id, conf.SUBSCRIBE_M2M)
+        return self.add_remove_relation(id, 'follow_M2M')
 
     @action(methods=('get',), detail=False)
     def subscriptions(self, request):
         """Список подписок пользоваетеля.
-
-        Вызов метода через url: */user/<int:id>/subscribtions/.
-
-        Args:
-            request (Request): Не используется.
-
-        Returns:
-            Responce:
-                401 - для неавторизованного пользователя.
-                Список подписок для авторизованного пользователя.
+        */user/<int:id>/subscribtions/.
         """
         user = self.request.user
         if user.is_anonymous:
             return Response(status=HTTP_401_UNAUTHORIZED)
-        authors = user.subscribe.all()
+        authors = user.follow.all()
         pages = self.paginate_queryset(authors)
         serializer = UserSubscribeSerializer(
             pages, many=True, context={'request': request}
@@ -81,7 +60,6 @@ class UserViewSet(DjoserUserViewSet, AddDelViewMixin):
 
 class TagViewSet(ReadOnlyModelViewSet):
     """Работает с тэгами.
-
     Изменение и создание тэгов разрешено только админам.
     """
     queryset = Tag.objects.all()
@@ -91,7 +69,6 @@ class TagViewSet(ReadOnlyModelViewSet):
 
 class IngredientViewSet(ReadOnlyModelViewSet):
     """Работет с игридиентами.
-
     Изменение и создание ингридиентов разрешено только админам.
     """
     queryset = Ingredient.objects.all()
@@ -100,26 +77,16 @@ class IngredientViewSet(ReadOnlyModelViewSet):
 
     def get_queryset(self):
         """Получает queryset в соответствии с параметрами запроса.
-
-        Реализован поиск объектов по совпадению в начале названия,
+        Ищет объекты по совпадению в начале названия,
         также добавляются результаты по совпадению в середине.
-        При наборе названия в неправильной раскладке - латинские символы
-        преобразуются в кириллицу (для стандартной раскладки).
-        Также прописные буквы преобразуются в строчные,
+        Прописные буквы преобразуются в строчные,
         так как все ингридиенты в базе записаны в нижнем регистре.
-
-        Returns:
-            QuerySet: Список запрошенных объектов.
-
-        TODO: `exclude` in queryset.
         """
-        name = self.request.query_params.get(conf.SEARCH_ING_NAME)
+        name = self.request.query_params.get('name')
         queryset = self.queryset
         if name:
             if name[0] == '%':
                 name = unquote(name)
-            else:
-                name = name.translate(incorrect_layout)
             name = name.lower()
             stw_queryset = list(queryset.filter(name__startswith=name))
             cnt_queryset = queryset.filter(name__contains=name)
@@ -132,7 +99,6 @@ class IngredientViewSet(ReadOnlyModelViewSet):
 
 class RecipeViewSet(ModelViewSet, AddDelViewMixin):
     """Работает с рецептами.
-
     Вывод, создание, редактирование, добавление/удаление
     в избранное и список покупок.
     Отправка текстового файла со списком покупок.
@@ -140,6 +106,7 @@ class RecipeViewSet(ModelViewSet, AddDelViewMixin):
     рецепт в избранное и в список покупок.
     Изменять рецепт может только автор или админы.
     """
+    
     queryset = Recipe.objects.select_related('author')
     serializer_class = RecipeSerializer
     permission_classes = (AuthorStaffOrReadOnly,)
@@ -147,19 +114,15 @@ class RecipeViewSet(ModelViewSet, AddDelViewMixin):
     add_serializer = ShortRecipeSerializer
 
     def get_queryset(self):
-        """Получает queryset в соответствии с параметрами запроса.
-
-        Returns:
-            QuerySet: Список запрошенных объектов.
-        """
+        """Фильтрация в соответствии с параметрами запроса."""
         queryset = self.queryset
 
-        tags = self.request.query_params.getlist(conf.TAGS)
+        tags = self.request.query_params.getlist('tags')
         if tags:
             queryset = queryset.filter(
                 tags__slug__in=tags).distinct()
 
-        author = self.request.query_params.get(conf.AUTHOR)
+        author = self.request.query_params.get('author')
         if author:
             queryset = queryset.filter(author=author)
 
@@ -168,87 +131,63 @@ class RecipeViewSet(ModelViewSet, AddDelViewMixin):
         if user.is_anonymous:
             return queryset
 
-        is_in_shopping = self.request.query_params.get(conf.SHOP_CART)
-        if is_in_shopping in conf.SYMBOL_TRUE_SEARCH:
-            queryset = queryset.filter(cart=user.id)
-        elif is_in_shopping in conf.SYMBOL_FALSE_SEARCH:
-            queryset = queryset.exclude(cart=user.id)
+        is_in_shopping = self.request.query_params.get('is_in_shopping_cart')
+        if is_in_shopping in ('1', 'true',):
+            queryset = queryset.filter(is_in_shopping_list=user.id)
+        elif is_in_shopping in ('0', 'false',):
+            queryset = queryset.exclude(is_in_shopping_list=user.id)
 
-        is_favorited = self.request.query_params.get(conf.FAVORITE)
-        if is_favorited in conf.SYMBOL_TRUE_SEARCH:
-            queryset = queryset.filter(favorite=user.id)
-        if is_favorited in conf.SYMBOL_FALSE_SEARCH:
-            queryset = queryset.exclude(favorite=user.id)
+        is_favorited = self.request.query_params.get('is_favorited')
+        if is_favorited in ('1', 'true',):
+            queryset = queryset.filter(is_favorite=user.id)
+        if is_favorited in ('0', 'false',):
+            queryset = queryset.exclude(is_favorite=user.id)
 
         return queryset
 
-    @action(methods=conf.ACTION_METHODS, detail=True)
+    @action(methods=('GET', 'POST', 'DELETE',), detail=True)
     def favorite(self, request, pk):
         """Добавляет/удалет рецепт в `избранное`.
-
-        Вызов метода через url: */recipe/<int:pk>/favorite/.
-
-        Args:
-            request (Request): Не используется.
-            pk (int, str):
-                id рецепта, который нужно добавить/удалить из `избранного`.
-
-        Returns:
-            Responce: Статус подтверждающий/отклоняющий действие.
+        */recipe/<int:pk>/favorite/.
         """
-        return self.add_del_obj(pk, conf.FAVORITE_M2M)
+        return self.add_remove_relation(pk, 'is_favorite_M2M')
 
-    @action(methods=conf.ACTION_METHODS, detail=True)
+    @action(methods=('GET', 'POST', 'DELETE',), detail=True)
     def shopping_cart(self, request, pk):
         """Добавляет/удалет рецепт в `список покупок`.
-
-        Вызов метода через url: *//recipe/<int:pk>/shopping_cart/.
-
-        Args:
-            request (Request): Не используется.
-            pk (int, str):
-                id рецепта, который нужно добавить/удалить в `корзину покупок`.
-
-        Returns:
-            Responce: Статус подтверждающий/отклоняющий действие.
+        */recipe/<int:pk>/shopping_cart/.
         """
-        return self.add_del_obj(pk, conf.SHOP_CART_M2M)
+        return self.add_remove_relation(pk, 'shopping_cart_M2M')
 
     @action(methods=('get',), detail=False)
     def download_shopping_cart(self, request):
         """Загружает файл *.txt со списком покупок.
-
-        Считает сумму ингредиентов в рецептах выбранных для покупки.
-        Возвращает текстовый файл со списком ингредиентов.
-        Вызов метода через url:  */recipe/<int:id>/download_shopping_cart/.
-
-        Args:
-            request (Request): Не используется.
-
-        Returns:
-            Responce: Ответ с текстовым файлом.
+        */recipe/<int:id>/download_shopping_cart/.
         """
+        # ДД/ММ/ГГГГ ЧЧ:ММ
+        TIME_FORMAT = '%d/%m/%Y %H:%M'
+        
         user = self.request.user
-        if not user.carts.exists():
+        if not user.shopping_list.exists():
             return Response(status=HTTP_400_BAD_REQUEST)
         ingredients = IngredientQuantity.objects.filter(
-            recipe__in=(user.carts.values('id'))
+            recipe__in=(user.shopping_list.values('id'))
         ).values(
             ingredient=F('ingredients__name'),
             measure=F('ingredients__measurement_unit')
-        ).annotate(quantity=Sum('quantity'))
+        ).annotate(amount=Sum('amount'))
 
         filename = f'{user.username}_shopping_list.txt'
         shopping_list = (
-            f'Список покупок для:\n\n{user.first_name}\n\n'
-            f'{dt.now().strftime(conf.DATE_TIME_FORMAT)}\n\n'
+            f'Список покупок для пользователя {user.first_name}:\n\n'
+            
         )
         for ing in ingredients:
             shopping_list += (
-                f'{ing["ingredient"]}: {ing["quantity"]} {ing["measure"]}\n'
+                f'{ing["ingredient"]}: {ing["amount"]} {ing["measure"]}\n'
             )
 
-        shopping_list += '\n\nПосчитано в Foodgram'
+        shopping_list += f'\nДата составления {dt.now().strftime(TIME_FORMAT)}.\n\nMade in Foodgram 2022 (c)'
 
         response = HttpResponse(
             shopping_list, content_type='text.txt; charset=utf-8'

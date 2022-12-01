@@ -136,3 +136,6 @@ migrations/
 
 # Модули Node.js
 node_modules/
+
+# Статика и медиа
+media/

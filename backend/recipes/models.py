@@ -1,10 +1,7 @@
-# from django.contrib.auth import get_user_model
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.db.models import CASCADE
+from django.db.models import CASCADE, UniqueConstraint
 from users.models import GourmetUser
-
-# User = get_user_model()
 
 
 class Tag(models.Model):
@@ -49,7 +46,7 @@ class Recipe(models.Model):
         related_name='recipes',
         verbose_name='Автор'
     )
-    title = models.CharField(
+    name = models.CharField(
         'Название блюда',
         help_text='Введите название блюда',
         max_length=200
@@ -84,12 +81,8 @@ class Recipe(models.Model):
     )  
     tags = models.ManyToManyField(
         Tag,
-        # blank=True,
-        # null=True,
-        # on_delete=models.SET_NULL,
         related_name='recipes',
         verbose_name='Тэг',
-        # help_text='Выберите тэг'
     )
     is_favorite = models.ManyToManyField(
         GourmetUser,
@@ -103,7 +96,7 @@ class Recipe(models.Model):
     )
     
     def __str__(self):
-       return self.title
+       return self.name
 
     class Meta:
         ordering = ['-create_date']
@@ -117,7 +110,6 @@ class Ingredient(models.Model):
     name = models.CharField(
         verbose_name='Ингридиент',
         max_length=200,
-        # unique=True,
     )
     measurement_unit = models.CharField(
         verbose_name='Единицы измерения',
@@ -149,7 +141,7 @@ class IngredientQuantity(models.Model):
         to=Ingredient,
         on_delete=CASCADE,
     )
-    quantity = models.PositiveSmallIntegerField(
+    amount = models.PositiveSmallIntegerField(
         verbose_name='Количество',
         default=0,
         validators=(
@@ -161,3 +153,12 @@ class IngredientQuantity(models.Model):
             ),
         ),
     )
+
+    class Meta:
+        ordering = ('recipe', )
+        constraints = (
+            UniqueConstraint(
+                fields=('recipe', 'ingredients', ),
+                name='\n%(app_label)s_%(class)s ingredient alredy added\n',
+            ),
+        )

@@ -1,13 +1,12 @@
-from django.contrib.admin import ModelAdmin, register
+from django.contrib.admin import register
 from django.contrib.auth.admin import UserAdmin
-# from django.contrib.auth.admin import ModelAdmin
 
 from .models import GourmetUser
 
 @register(GourmetUser)
 class GourmetUserAdmin(UserAdmin):
     list_display = (
-        'username', 'first_name', 'last_name', 'email',
+        'username', 'first_name', 'last_name', 'email', 'password',
     )
     fields = (
         ('username', 'email', ),
