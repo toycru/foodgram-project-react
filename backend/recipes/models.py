@@ -1,6 +1,7 @@
-from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
 from django.db.models import CASCADE, UniqueConstraint
+
 from users.models import GourmetUser
 
 
@@ -25,13 +26,15 @@ class Tag(models.Model):
         default='FF',
     )
 
+
 class Meta:
-        verbose_name = 'Тэг'
-        verbose_name_plural = 'Тэги'
-        ordering = ('name', )
+    verbose_name = 'Тэг'
+    verbose_name_plural = 'Тэги'
+    ordering = ('name', )
+
 
 def __str__(self) -> str:
-        return f'{self.name} (цвет: {self.color})'
+    return f'{self.name} (цвет: {self.color})'
 
 
 class Recipe(models.Model):
@@ -39,7 +42,7 @@ class Recipe(models.Model):
     Связана с пользователем-автором GourmetUser через O2М.
     Связана с количеством игридиентов IngredientQuantity через O2М.
     Связана с пользователем Tags через M2М.
-    Связана с GourmetUser через M2М для добавления в избронное и список покупок."""
+    Связана с GourmetUser через M2М для добавления в избронное и покупки."""
     author = models.ForeignKey(
         GourmetUser,
         on_delete=models.CASCADE,
@@ -78,7 +81,7 @@ class Recipe(models.Model):
     create_date = models.DateTimeField(
         'Дата публикации',
         auto_now_add=True
-    )  
+    )
     tags = models.ManyToManyField(
         Tag,
         related_name='recipes',
@@ -94,9 +97,9 @@ class Recipe(models.Model):
         verbose_name='Список покупок',
         related_name='shopping_list'
     )
-    
+
     def __str__(self):
-       return self.name
+        return self.name
 
     class Meta:
         ordering = ['-create_date']

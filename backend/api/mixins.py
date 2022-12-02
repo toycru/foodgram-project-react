@@ -3,11 +3,9 @@
 """
 
 from django.shortcuts import get_object_or_404
-
 from rest_framework.response import Response
 from rest_framework.status import (HTTP_201_CREATED, HTTP_204_NO_CONTENT,
                                    HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED)
-
 
 
 class AddDelViewMixin:
@@ -32,7 +30,7 @@ class AddDelViewMixin:
     add_serializer = None
 
     def add_remove_relation(self, obj_id, manager):
-        """Меняет M2M-связь 
+        """Меняет M2M-связь
         """
         assert self.add_serializer is not None, (
             f'{self.__class__.__name__} should include '

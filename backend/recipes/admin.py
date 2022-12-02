@@ -1,8 +1,8 @@
-from django.contrib.admin import ModelAdmin, TabularInline, register
 from django.contrib import admin
-from django.utils.safestring import mark_safe
+from django.contrib.admin import TabularInline, register
 
-from .models import Ingredient, Recipe, Tag, IngredientQuantity
+
+from .models import Ingredient, IngredientQuantity, Recipe, Tag
 
 EMPTY_VALUE_DISPLAY = 'Значение не задано'
 
@@ -10,6 +10,7 @@ EMPTY_VALUE_DISPLAY = 'Значение не задано'
 class IngredientInline(TabularInline):
     model = IngredientQuantity
     extra = 2
+
 
 @register(Tag)
 class TagAdmin(admin.ModelAdmin):
@@ -62,7 +63,3 @@ class RecipeAdmin(admin.ModelAdmin):
     inlines = (IngredientInline,)
     save_on_top = True
     empty_value_display = EMPTY_VALUE_DISPLAY
-
-
-
-

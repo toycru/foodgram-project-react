@@ -4,15 +4,13 @@ from urllib.parse import unquote
 from django.contrib.auth import get_user_model
 from django.db.models import F, Sum
 from django.http.response import HttpResponse
-
 from djoser.views import UserViewSet as DjoserUserViewSet
-
-from recipes.models import IngredientQuantity, Ingredient, Recipe, Tag
-
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
+
+from recipes.models import Ingredient, IngredientQuantity, Recipe, Tag
 
 from .mixins import AddDelViewMixin
 from .paginators import PageLimitPagination
@@ -106,7 +104,6 @@ class RecipeViewSet(ModelViewSet, AddDelViewMixin):
     рецепт в избранное и в список покупок.
     Изменять рецепт может только автор или админы.
     """
-    
     queryset = Recipe.objects.select_related('author')
     serializer_class = RecipeSerializer
     permission_classes = (AuthorStaffOrReadOnly,)
@@ -166,7 +163,6 @@ class RecipeViewSet(ModelViewSet, AddDelViewMixin):
         """
         # ДД/ММ/ГГГГ ЧЧ:ММ
         TIME_FORMAT = '%d/%m/%Y %H:%M'
-        
         user = self.request.user
         if not user.shopping_list.exists():
             return Response(status=HTTP_400_BAD_REQUEST)
@@ -180,14 +176,16 @@ class RecipeViewSet(ModelViewSet, AddDelViewMixin):
         filename = f'{user.username}_shopping_list.txt'
         shopping_list = (
             f'Список покупок для пользователя {user.first_name}:\n\n'
-            
         )
         for ing in ingredients:
             shopping_list += (
                 f'{ing["ingredient"]}: {ing["amount"]} {ing["measure"]}\n'
             )
 
-        shopping_list += f'\nДата составления {dt.now().strftime(TIME_FORMAT)}.\n\nMade in Foodgram 2022 (c)'
+        shopping_list += (
+            f'\nДата составления {dt.now().strftime(TIME_FORMAT)}.'
+            '\n\nMade in Foodgram 2022 (c)'
+        )
 
         response = HttpResponse(
             shopping_list, content_type='text.txt; charset=utf-8'

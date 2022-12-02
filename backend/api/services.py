@@ -2,9 +2,9 @@
 """
 from string import hexdigits
 
-from recipes.models import IngredientQuantity
-
 from rest_framework.serializers import ValidationError
+
+from recipes.models import IngredientQuantity
 
 
 def is_hex_color(value):

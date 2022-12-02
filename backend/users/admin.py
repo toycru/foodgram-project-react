@@ -3,6 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 
 from .models import GourmetUser
 
+
 @register(GourmetUser)
 class GourmetUserAdmin(UserAdmin):
     list_display = (

@@ -1,15 +1,12 @@
 from django.contrib.auth import get_user_model
-from django.db.models import F
-
 from drf_extra_fields.fields import Base64ImageField
-
-from recipes.models import Ingredient, Recipe, Tag
-
 from rest_framework.serializers import (ModelSerializer, SerializerMethodField,
                                         ValidationError)
 
-from .services import (check_value_validate, is_hex_color,
-                       enter_ingredient_quantity_in_recipe)
+from recipes.models import Ingredient, Recipe, Tag
+
+from .services import (check_value_validate,
+                       enter_ingredient_quantity_in_recipe, is_hex_color)
 
 User = get_user_model()
 
@@ -161,10 +158,20 @@ class RecipeSerializer(ModelSerializer):
         )
 
     def get_ingredients(self, recipe):
-        """Получает список ингридиентов для рецепта recipe."""   
-        ingredients = recipe.ingredient.values('ingredients__id', 'ingredients__name', 'ingredients__measurement_unit', 'amount')
-        return [{key.replace('ingredients__', ''): val for key, val in ingredient.items()} for ingredient in ingredients]
-
+        """Получает список ингридиентов для рецепта recipe."""
+        ingredients = recipe.ingredient.values(
+            'ingredients__id',
+            'ingredients__name',
+            'ingredients__measurement_unit',
+            'amount'
+            )
+        return [
+            {
+                key.replace('ingredients__', ''):
+                val for key, val in ingredient.items()
+                }
+            for ingredient in ingredients
+            ]
 
     def get_is_favorited(self, obj):
         """Проверка - находится ли рецепт в избранном.
@@ -188,7 +195,7 @@ class RecipeSerializer(ModelSerializer):
         if user.is_anonymous:
             return False
         return user.shopping_list.filter(id=recipe.id).exists()
-    
+
     def validate(self, data):
         """Проверка вводных данных data при создании и изменении рецепта."""
         name = str(self.initial_data.get('name')).strip()
@@ -222,7 +229,6 @@ class RecipeSerializer(ModelSerializer):
         data['ingredients'] = valid_ingredients
         data['author'] = self.context.get('request').user
         return data
-
 
     def create(self, validated_data):
         """Создание рецепта."""
