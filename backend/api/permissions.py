@@ -2,7 +2,7 @@ from rest_framework.permissions import (BasePermission,
                                         IsAuthenticatedOrReadOnly)
 
 
-class AuthorStaffOrReadOnly(IsAuthenticatedOrReadOnly):
+class IsAuthorStaffOrReadOnly(IsAuthenticatedOrReadOnly):
     """
     Разрешение на изменение только для служебного персонала и автора.
     Остальным только чтение.
@@ -15,7 +15,7 @@ class AuthorStaffOrReadOnly(IsAuthenticatedOrReadOnly):
         )
 
 
-class AdminOrReadOnly(BasePermission):
+class IsAdminOrReadOnly(BasePermission):
     """
     Разрешение на создание и изменение только для админов.
     Остальным только чтение.
@@ -28,7 +28,7 @@ class AdminOrReadOnly(BasePermission):
         )
 
 
-class OwnerUserOrReadOnly(IsAuthenticatedOrReadOnly):
+class IsOwnerUserOrReadOnly(IsAuthenticatedOrReadOnly):
     """
     Разрешение на изменение только для админа и пользователя.
     Остальным только чтение.

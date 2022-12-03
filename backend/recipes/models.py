@@ -1,7 +1,7 @@
+from colorfield.fields import ColorField
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models import CASCADE, UniqueConstraint
-
 from users.models import GourmetUser
 
 
@@ -18,23 +18,18 @@ class Tag(models.Model):
         unique=True,
         max_length=200
     )
-    color = models.CharField(
+    color = ColorField(
         verbose_name='Цветовой HEX-код',
-        max_length=6,
-        blank=True,
-        null=True,
-        default='FF',
+        default='#FF0000',
     )
 
+    class Meta:
+        verbose_name = 'Тэг'
+        verbose_name_plural = 'Тэги'
+        ordering = ('name', )
 
-class Meta:
-    verbose_name = 'Тэг'
-    verbose_name_plural = 'Тэги'
-    ordering = ('name', )
-
-
-def __str__(self) -> str:
-    return f'{self.name} (цвет: {self.color})'
+    def __str__(self) -> str:
+        return f'{self.name} (цвет: {self.color})'
 
 
 class Recipe(models.Model):
@@ -60,7 +55,7 @@ class Recipe(models.Model):
     )
     cooking_time = models.PositiveSmallIntegerField(
         verbose_name='Время приготовления, мин.',
-        default=0,
+        default=1,
         validators=(
             MinValueValidator(
                 1,
@@ -121,6 +116,7 @@ class Ingredient(models.Model):
 
     class Meta:
         ordering = ['name']
+        unique_together = ('name', 'measurement_unit')
         verbose_name = 'Ингредиент'
         verbose_name_plural = 'Ингредиенты'
 
@@ -146,13 +142,13 @@ class IngredientQuantity(models.Model):
     )
     amount = models.PositiveSmallIntegerField(
         verbose_name='Количество',
-        default=0,
+        default=1,
         validators=(
             MinValueValidator(
                 1, 'Слишком мало.'
             ),
             MaxValueValidator(
-                10000, 'Слишком много.'
+                10000000, 'Слишком много для любых мер.'
             ),
         ),
     )

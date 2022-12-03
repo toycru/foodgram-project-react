@@ -2,17 +2,16 @@ import csv
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
-
 from recipes.models import Ingredient
 
 
 class Command(BaseCommand):
+
     help = 'Загрузка списка ингредиентов из CSV-файла'
 
     def handle(self, **kwargs):
-        data_path = settings.BASE_DIR
         with open(
-            f'{data_path}/data/ingredients.csv',
+            settings.LOAD_INGR_PATH,
             'r',
             encoding='UTF-8'
         ) as file:

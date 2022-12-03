@@ -14,7 +14,7 @@ from recipes.models import Ingredient, IngredientQuantity, Recipe, Tag
 
 from .mixins import AddDelViewMixin
 from .paginators import PageLimitPagination
-from .permissions import AdminOrReadOnly, AuthorStaffOrReadOnly
+from .permissions import IsAdminOrReadOnly, IsAuthorStaffOrReadOnly
 from .serializers import (IngredientSerializer, RecipeSerializer,
                           ShortRecipeSerializer, TagSerializer,
                           UserSubscribeSerializer)
@@ -62,7 +62,7 @@ class TagViewSet(ReadOnlyModelViewSet):
     """
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
-    permission_classes = (AdminOrReadOnly,)
+    permission_classes = (IsAdminOrReadOnly,)
 
 
 class IngredientViewSet(ReadOnlyModelViewSet):
@@ -71,7 +71,7 @@ class IngredientViewSet(ReadOnlyModelViewSet):
     """
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
-    permission_classes = (AdminOrReadOnly,)
+    permission_classes = (IsAdminOrReadOnly,)
 
     def get_queryset(self):
         """Получает queryset в соответствии с параметрами запроса.
@@ -106,7 +106,7 @@ class RecipeViewSet(ModelViewSet, AddDelViewMixin):
     """
     queryset = Recipe.objects.select_related('author')
     serializer_class = RecipeSerializer
-    permission_classes = (AuthorStaffOrReadOnly,)
+    permission_classes = (IsAuthorStaffOrReadOnly,)
     pagination_class = PageLimitPagination
     add_serializer = ShortRecipeSerializer
 
