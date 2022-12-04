@@ -16,11 +16,15 @@ class Command(BaseCommand):
             encoding='UTF-8'
         ) as file:
             reader = csv.reader(file, delimiter=',')
-            for row in reader:
-                Ingredient.objects.get_or_create(
+
+            ingredient_list = [
+                Ingredient(
                     name=row[0],
                     measurement_unit=row[1]
                 )
+                for row in reader
+            ]
+        Ingredient.objects.bulk_create(ingredient_list)
         self.stdout.write(self.style.SUCCESS(
                           'Ингредиенты успешно загружены в БД.'
                           ))
