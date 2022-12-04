@@ -21,3 +21,4 @@ jobs:
           tag_with_ref: true
           context: ./backend/
           tags: toycru/foodgram-project-react:latest
+ 
