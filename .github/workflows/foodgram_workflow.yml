@@ -17,7 +17,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: toycru/yamdb_final
+          repository: toycru/foodgram-project-react
           tag_with_ref: true
-          context: ./api_yamdb
-          tags: toycru/yamdb_final:latest
+          context: ./backend/
+          tags: toycru/foodgram-project-react:latest
