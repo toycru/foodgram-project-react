@@ -3,6 +3,24 @@ name: Foodgram workflow
 on: [push]
 
 jobs:
+  copy_infra_to_server:
+    name: Copy docker-compose.yml and nginx.conf
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Create projects directory
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST_IP }}
+        username: ${{ secrets.HOST_USER }}
+        key: ${{ secrets.SSH_KEY }}
+        passphrase: ${{ secrets.PASSPHRASE }}
+        script: |
+          cd projects
+          sudo rm -rf foodgram
+          mkdir -p foodgram
+
   build_and_push_to_docker_hub:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
@@ -21,4 +39,37 @@ jobs:
           tag_with_ref: true
           context: ./backend/
           tags: toycru/foodgram-project-react:latest
+          
+  deploy:
+    runs-on: ubuntu-20.04
+    needs:
+      - copy_infra_to_server
+      - build_and_push_to_docker_hub
+    steps:
+    - name: remote ssh commands to deploy
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST_IP }}
+        username: ${{ secrets.HOST_USER }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          cd projects/foodgram/
+          touch .env
+          echo DEBUG=${{ secrets.DEBUG }} >> .env
+          echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
+          echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
+          echo CSRF_TRUSTED_ORIGINS=${{ secrets.CSRF_TRUSTED_ORIGINS }} >> .env
+          echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
+          echo DB_NAME=${{ secrets.DB_NAME }} >> .env
+          echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env
+          echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
+          echo DB_HOST=${{ secrets.DB_HOST }} >> .env
+          echo DB_PORT=${{ secrets.DB_PORT }} >> .env
+
+          sudo docker-compose stop
+          sudo docker rm foodgram_frontend_1
+          sudo docker rm foodgram_backend_1
+          sudo docker rmi ${{ secrets.DOCKER_USER }}/foodgram_front
+          sudo docker rmi ${{ secrets.DOCKER_USER }}/foodgram_back
+          sudo docker-compose up -d
  
