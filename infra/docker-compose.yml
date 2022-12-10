@@ -20,8 +20,6 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
       - ../backend/.env
-    networks:
-      - postgres-network
   
   backend:
     image: toycru/foodgram_backend:v2.0
@@ -42,8 +40,6 @@ services:
       - db
     env_file:
       - ../backend/.env
-    networks:
-      - postgres-network
   
   nginx:
     image: nginx:1.19.3
@@ -62,7 +58,3 @@ volumes:
   static_value:
   media_value:
   postgres_data:
-
-networks:
-  postgres-network:
-    driver: bridge

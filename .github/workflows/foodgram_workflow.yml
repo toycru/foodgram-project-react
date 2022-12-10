@@ -3,23 +3,23 @@ name: Foodgram workflow
 on: [push]
 
 jobs:
-  copy_infra_to_server:
-    name: Copy docker-compose.yml and nginx.conf
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Create projects directory
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST_IP }}
-        username: ${{ secrets.HOST_USER }}
-        key: ${{ secrets.SSH_KEY }}
-        passphrase: ${{ secrets.PASSPHRASE }}
-        script: |
-          cd projects
-          sudo rm -rf foodgram
-          mkdir -p foodgram
+#  copy_infra_to_server:
+#    name: Copy docker-compose.yml and nginx.conf
+#    runs-on: ubuntu-latest
+#    steps:
+#    - uses: actions/checkout@v2
+#
+#    - name: Create projects directory
+#      uses: appleboy/ssh-action@master
+#      with:
+#        host: ${{ secrets.HOST_IP }}
+#        username: ${{ secrets.HOST_USER }}
+#        key: ${{ secrets.SSH_KEY }}
+#        passphrase: ${{ secrets.PASSPHRASE }}
+#        script: |
+#          cd projects
+#          sudo rm -rf foodgram
+#          mkdir -p foodgram
 
   build_and_push_to_docker_hub:
     name: Push Docker image to Docker Hub
@@ -28,23 +28,28 @@ jobs:
     steps:
       - name: Check out the repo
         # Проверка доступности репозитория Docker Hub для workflow
-        uses: actions/checkout@v2 
-      - name: Push to Docker Hub
-        # Пуш образа в Docker Hub 
-        uses: docker/build-push-action@v2 
+        uses: actions/checkout@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to Docker
+        uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: toycru/foodgram-project-react
-          tag_with_ref: true
-          context: ./backend/
-          tags: toycru/foodgram-project-react:latest
+      - name: Push to Docker Hub
+        uses: docker/build-push-action@v2
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/foodgram_backend:latest
           
   deploy:
     runs-on: ubuntu-20.04
     needs:
-      - copy_infra_to_server
+      # - copy_infra_to_server
       - build_and_push_to_docker_hub
+    if: github.ref == 'refs/heads/master'
     steps:
     - name: remote ssh commands to deploy
       uses: appleboy/ssh-action@master
@@ -54,12 +59,10 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.PASSPHRASE }}
         script: |
-          cd projects/foodgram/
+          cd foodgram/
           touch .env
           echo DEBUG=${{ secrets.DEBUG }} >> .env
           echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
-          echo ALLOWED_HOSTS=${{ secrets.ALLOWED_HOSTS }} >> .env
-          echo CSRF_TRUSTED_ORIGINS=${{ secrets.CSRF_TRUSTED_ORIGINS }} >> .env
           echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
           echo DB_NAME=${{ secrets.DB_NAME }} >> .env
           echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env
