@@ -2,17 +2,20 @@ version: '3.3'
 services:
 
   frontend:
-    build:
-      context: ../frontend
-      dockerfile: Dockerfile
+    image: toycru/foodgram_frontend:v1.0
+    # build:
+    #  context: ../frontend
+    #  dockerfile: Dockerfile
     volumes:
       - ../frontend/:/app/result_build/
   
   db:
     image: postgres:13.0-alpine
+    expose:
+      - 5432
     # ports:
-    #   - "5432:5432"
-    restart: always
+    #  - "5432:5432"
+    # restart: always
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
@@ -21,15 +24,17 @@ services:
       - postgres-network
   
   backend:
-    # image: toycru/foodgram_backend:latest
-    build: ../backend/
+    image: toycru/foodgram_backend:v2.0
+    # build: ../backend/
     restart: always
-    ports:
-     - "8000:8000"
-    # command: >
-    # bash -c "python manage.py migrate &&
-    # python manage.py collectstatic --noinput &&
-    # gunicorn --bind 0:8000 foodgram.wsgi"
+    expose:
+      - 8000
+    # ports:
+    # - "8000:8000"
+    command: >
+     bash -c "python manage.py migrate &&
+     python manage.py collectstatic --noinput &&
+     gunicorn --bind 0:8000 foodgram.wsgi"
     volumes:
       - static_value:/app/static/
       - media_value:/app/media/
