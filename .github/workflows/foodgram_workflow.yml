@@ -47,7 +47,7 @@ jobs:
   deploy:
     runs-on: ubuntu-20.04
     needs:
-      # - copy_infra_to_server
+      # - copy_infra_to_server 
       - build_and_push_to_docker_hub
     if: github.ref == 'refs/heads/master'
     steps:
