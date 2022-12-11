@@ -22,17 +22,17 @@ services:
       - ./.env
   
   backend:
-    image: toycru/foodgram_backend:v2.0
+    image: toycru/foodgram_backend:latest
     # build: ../backend/
     restart: always
     expose:
       - 8000
     # ports:
     # - "8000:8000"
-    command: >
-     bash -c "python manage.py migrate &&
-     python manage.py collectstatic --noinput &&
-     gunicorn --bind 0:8000 foodgram.wsgi"
+    # command: >
+    # bash -c "python manage.py migrate &&
+    # python manage.py collectstatic --noinput &&
+    # gunicorn --bind 0:8000 foodgram.wsgi"
     volumes:
       - static_value:/app/static/
       - media_value:/app/media/
