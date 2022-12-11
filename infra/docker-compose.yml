@@ -28,7 +28,7 @@ services:
     expose:
       - 8000
     # ports:
-    # - "8000:8000" 
+    # - "8000:8000"
     command: >
      bash -c "python manage.py migrate &&
      python manage.py collectstatic --noinput &&
