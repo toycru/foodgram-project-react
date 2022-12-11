@@ -5,7 +5,7 @@ services:
     image: toycru/foodgram_frontend:v1.0
     # build:
     #  context: ../frontend
-    #  dockerfile: Dockerfile 
+    #  dockerfile: Dockerfile
     volumes:
       - ../frontend/:/app/result_build/
   
