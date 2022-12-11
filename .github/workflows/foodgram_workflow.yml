@@ -43,6 +43,7 @@ jobs:
           sudo docker-compose stop
           sudo docker-compose rm backend
           sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram_backend:latest
+          pwd
           rm .env
           touch .env
           echo DEBUG=${{ secrets.DEBUG }} >> .env
