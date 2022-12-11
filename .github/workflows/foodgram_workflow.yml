@@ -3,24 +3,6 @@ name: Foodgram workflow
 on: [push]
 
 jobs:
-#  copy_infra_to_server:
-#    name: Copy docker-compose.yml and nginx.conf
-#    runs-on: ubuntu-latest
-#    steps:
-#    - uses: actions/checkout@v2
-#
-#    - name: Create projects directory
-#      uses: appleboy/ssh-action@master
-#      with:
-#        host: ${{ secrets.HOST_IP }}
-#        username: ${{ secrets.HOST_USER }}
-#        key: ${{ secrets.SSH_KEY }}
-#        passphrase: ${{ secrets.PASSPHRASE }}
-#        script: |
-#          cd projects
-#          sudo rm -rf foodgram
-#          mkdir -p foodgram
-
   build_and_push_to_docker_hub:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
@@ -47,7 +29,6 @@ jobs:
   deploy:
     runs-on: ubuntu-20.04
     needs:
-      # - copy_infra_to_server 
       - build_and_push_to_docker_hub
     if: github.ref == 'refs/heads/master'
     steps:
@@ -59,7 +40,10 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.PASSPHRASE }}
         script: |
-          cd foodgram/
+          sudo docker-compose stop
+          sudo docker-compose rm backend
+          sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram_backend:latest
+          rm .env
           touch .env
           echo DEBUG=${{ secrets.DEBUG }} >> .env
           echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
@@ -69,10 +53,10 @@ jobs:
           echo DB_HOST=${{ secrets.DB_HOST }} >> .env
           echo DB_PORT=${{ secrets.DB_PORT }} >> .env
 
-          sudo docker-compose stop
-          sudo docker rm foodgram_frontend_1
-          sudo docker rm foodgram_backend_1
-          sudo docker rmi ${{ secrets.DOCKER_USER }}/foodgram_front
-          sudo docker rmi ${{ secrets.DOCKER_USER }}/foodgram_back
-          sudo docker-compose up -d
+          sudo docker-compose up -d --build
+          sudo docker-compose exec -T backend python manage.py makemigrations
+          sudo docker-compose exec -T backend python manage.py migrate
+          sudo docker-compose exec -T backend python manage.py import_ingredients
+          sudo docker-compose exec -T backend python manage.py collectstatic --no-input
+
  
