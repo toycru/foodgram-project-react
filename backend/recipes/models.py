@@ -158,6 +158,6 @@ class IngredientQuantity(models.Model):
         constraints = (
             UniqueConstraint(
                 fields=('recipe', 'ingredients', ),
-                name='\n%(app_label)s_%(class)s ingredient alredy added\n',
+                name='ingredient alredy added',
             ),
         )
