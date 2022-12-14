@@ -10,11 +10,10 @@ LOAD_INGR_PATH = BASE_DIR / "backend" / "data" / "ingredients.csv"
 
 SECRET_KEY = os.getenv(
     'SECRET_KEY',
-    # default='!)$(#l6g*q7+o1id*l6$f(_tw!=%ver==pwr3yq$cpj^in&9a$'
     default='qn*_a&_nj8xp__uz#-6itha4o$(!&yg8#&ua^ea(k%*qsd5^ia'
 )
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
