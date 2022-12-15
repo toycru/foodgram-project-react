@@ -79,7 +79,7 @@ class UserSerializer(ModelSerializer):
 class UserSubscribeSerializer(UserSerializer):
     """Сериализатор вывода авторов на которых подписан текущий пользователь.
     """
-    recipes = ShortRecipeSerializer(many=True, read_only=True)
+    recipes = SerializerMethodField(read_only=True)
     recipes_count = SerializerMethodField()
 
     class Meta:
@@ -106,6 +106,15 @@ class UserSubscribeSerializer(UserSerializer):
     def get_recipes_count(self, author):
         """Показывает общее количество рецептов у каждого автора author."""
         return author.recipes.count()
+
+    def get_recipes(self, obj):
+        """Показывает рецепты авторов в подписках"""
+        request = self.context.get('request')
+        recipes = obj.recipes.all()
+        limit = request.query_params.get('recipes_limit')
+        if limit:
+            recipes = recipes[:int(limit)]
+        return ShortRecipeSerializer(recipes, many=True).data
 
 
 class TagSerializer(ModelSerializer):
