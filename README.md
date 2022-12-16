@@ -6,7 +6,7 @@
 ***Проект выполнен минимально в соответствии с ТЗ без излишеств, только необходимвый функционал.***
 ***Спасибо за ваши звезды!*** :star::star::star:
 
-## Использованные технологии :godmode:
+## Использованные технологии :guitar:
 - Python 3.7
 - Django 2.2.19
 - Django REST framework 3.13
@@ -144,6 +144,6 @@ docker-compose up
 ```
 Тогда по адресу http://localhost/api/docs/ будет доступна спецификация проекта.
 
-**Авторы проекта** :hurtrealbad:  
-[Дмитрий ToyCru](https://github.com/toycru) - бэкенд 
+**Авторы проекта** :hurtrealbad: :godmode:  
+[Дмитрий ToyCru](https://github.com/toycru) - бэкенд  
 [Команда Яндекс.Практикума](https://github.com/yandex-praktikum/foodgram-project-react) - фронтенд
